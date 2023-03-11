@@ -16,9 +16,6 @@ public class Shop {
     Scanner scan;
     static List<Map<Object, Object>> wareHouse;
     static Map<Object, Object> item;
-    static Set<String> setOfSize = new HashSet<>();
-    static Set<Character> setOfGender = new HashSet<>();
-    static Set<String> setOfColor = new HashSet<>();
     public void readFiles() {
         String path1 = getPath("Adidas.csv");
         String path2 = getPath("Nike.csv");
@@ -69,11 +66,6 @@ public class Shop {
         item = new HashMap<>();
         Info info = new Info(values[1], values[2], values[3], values[4], values[5], values[6], values[7]);
         TShirt tShirt = new TShirt(values[0], info);
-
-        setOfSize.add(info.getSize().toUpperCase());
-        setOfGender.add(info.getGender());
-        setOfColor.add(info.getColor().toUpperCase());
-
         item.put(tShirt, info);
         return item;
     }
@@ -173,16 +165,18 @@ public class Shop {
     }
 
     private boolean getTShirtBySize(String size) throws SizeNotFoundException {
-        if (setOfSize.contains(size)) {
-            for (Map<Object, Object> map : wareHouse) {
-                for (Map.Entry<Object, Object> pair : map.entrySet()) {
-                    TShirt tShirt = (TShirt) pair.getKey();
-                    Info info = (Info) pair.getValue();
-                    if (info.getSize().equals(size)) System.out.println(printData(tShirt, info));
+        boolean flag = false;
+        for (Map<Object, Object> map : wareHouse) {
+            for (Map.Entry<Object, Object> pair : map.entrySet()) {
+                TShirt tShirt = (TShirt) pair.getKey();
+                Info info = (Info) pair.getValue();
+                if (info.getSize().toUpperCase().contains(size)) {
+                    System.out.println(printData(tShirt, info));
+                    flag = true;
                 }
             }
         }
-        else throw new SizeNotFoundException("Size not in stock.");
+        if (!flag) throw new SizeNotFoundException("Size not in stock.");
         return true;
     }
 
