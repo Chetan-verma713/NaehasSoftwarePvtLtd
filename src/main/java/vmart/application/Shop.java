@@ -157,16 +157,18 @@ public class Shop {
     }
 
     private boolean getTShirtByColor(String color) throws ColorNotFoundException {
-        if (setOfColor.contains(color)) {
-            for (Map<Object, Object> map : wareHouse) {
-                for (Map.Entry<Object, Object> pair : map.entrySet()) {
-                    TShirt tShirt = (TShirt) pair.getKey();
-                    Info info = (Info) pair.getValue();
-                    if (info.getColor().toUpperCase().contains(color)) System.out.println(printData(tShirt, info));
+        boolean flag = false;
+        for (Map<Object, Object> map : wareHouse) {
+            for (Map.Entry<Object, Object> pair : map.entrySet()) {
+                TShirt tShirt = (TShirt) pair.getKey();
+                Info info = (Info) pair.getValue();
+                if (info.getColor().toUpperCase().contains(color)) {
+                    System.out.println(printData(tShirt, info));
+                    flag = true;
                 }
             }
         }
-        else throw new ColorNotFoundException("Color not in stock.");
+        if (!flag) throw new ColorNotFoundException("Color not in stock.");
         return true;
     }
 
