@@ -56,7 +56,7 @@ public class Shop {
     }
 
     private String getPath(String fileName) {
-        return "/Users/chetan/IdeaProjects/Naehas/src/main/resources/vmart/" + fileName;
+        return "//Users/chetan/Desktop/Naehas/src/main/resources/vmart/" + fileName;
     }
 
     static Map<Object, Object> addTShirt(String[] values) {
@@ -82,57 +82,58 @@ public class Shop {
     }
 
     public void preferences() {
-        scan = new Scanner(System.in);
-        System.out.println("Enter 1 for color");
-        System.out.println("Enter 2 for size");
-        System.out.println("Enter 3 for Gender");
-        System.out.println("Enter 4 for Output Preferences");
-        System.out.println("Enter 5 for All T-Shirts");
-        System.out.println("Enter 6 for Exit");
-        System.out.print("Enter your choice : ");
-        int choice = scan.nextInt();
+        while (true) {
+            scan = new Scanner(System.in);
+            System.out.println("Enter 1 for Color");
+            System.out.println("Enter 2 for Size");
+            System.out.println("Enter 3 for Gender");
+            System.out.println("Enter 4 for Output Preferences");
+            System.out.println("Enter 5 for All T-Shirts");
+            System.out.println("Enter 6 for Exit");
+            System.out.print("Enter your choice : ");
+            int choice = scan.nextInt();
 
-        switch (choice) {
-            case 1:
-                try {
+            switch (choice) {
+                case 1:
+                    try {
+                        scan = new Scanner(System.in);
+                        System.out.print("Enter your color: ");
+                        String color = scan.next();
+                        getTShirtByColor(color);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 2:
+                    try {
+                        scan = new Scanner(System.in);
+                        System.out.print("Enter your size: ");
+                        String size = scan.next();
+                        getTShirtBySize(size);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 3:
                     scan = new Scanner(System.in);
-                    System.out.print("Enter your color: ");
-                    String color = scan.next();
-                    getTShirtByColor(color);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-                break;
-            case 2:
-                try {
+                    char gender = scan.next().charAt(0);
+                    getTShirtByGender(gender);
+                    break;
+                case 4:
                     scan = new Scanner(System.in);
-                    System.out.print("Enter your size: ");
-                    String size = scan.next();
-                    getTShirtBySize(size);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-                break;
-            case 3:
-                scan = new Scanner(System.in);
-                char gender = scan.next().charAt(0);
-                getTShirtByGender(gender);
-                break;
-            case 4:
-                scan = new Scanner(System.in);
-                System.out.println("Enter 1 for sorted by price");
-                System.out.println("Enter 2 for sorted by rating");
-                System.out.println("Enter 3 for sorted by both price and rating");
-                getTShirtByOutputPreferences(scan.nextInt());
-                break;
-            case 5:
-                getAllData();
-                break;
-            case 6:
-                System.exit(0);
-            default:
-                System.out.println("you have entered an invalid key, Please try again.\n");
-                preferences();
+                    System.out.println("Enter 1 for sorted by price");
+                    System.out.println("Enter 2 for sorted by rating");
+                    System.out.println("Enter 3 for sorted by both price and rating");
+                    getTShirtByOutputPreferences(scan.nextInt());
+                    break;
+                case 5:
+                    getAllData();
+                    break;
+                case 6:
+                    System.exit(0);
+                default:
+                    System.out.println("you have entered an invalid key, Please try again.\n");
+            }
         }
     }
 
@@ -157,20 +158,21 @@ public class Shop {
     }
 
     private void getTShirtByGender(int gender) {
-        scan = new Scanner(System.in);
-        switch (gender) {
-            case 1:
-                getTShirtByMale();
-                break;
-            case 2:
-                getTShirtByFemale();
-                break;
-            case 3:
-                getTShirtByUnisex();
-                break;
-            default:
-                System.out.println("You have entered an invalid input, Please try again");
-                getTShirtByGender(scan.nextInt());
+        while (true) {
+            scan = new Scanner(System.in);
+            switch (gender) {
+                case 1:
+                    getTShirtByMale();
+                    break;
+                case 2:
+                    getTShirtByFemale();
+                    break;
+                case 3:
+                    getTShirtByUnisex();
+                    break;
+                default:
+                    System.out.println("You have entered an invalid input, Please try again");
+            }
         }
     }
     private void getTShirtByMale() {
