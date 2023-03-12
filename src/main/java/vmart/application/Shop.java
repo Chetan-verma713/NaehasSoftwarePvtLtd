@@ -4,6 +4,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import vmart.exception.ColorNotFoundException;
+import vmart.exception.GenderNotFoundException;
 import vmart.exception.SizeNotFoundException;
 
 import java.io.File;
@@ -126,9 +127,18 @@ public class Shop {
                     System.out.println();
                     break;
                 case 3:
-                    scan = new Scanner(System.in);
-                    char gender = scan.next().charAt(0);
-                    getTShirtByGender(gender);
+                    while (true) {
+                        try {
+                            scan = new Scanner(System.in);
+                            System.out.print("\nEnter your gender: ");
+                            char gender = scan.next().charAt(0);
+                            if (getTShirtByGender(gender)) break;
+                            else throw new Exception();
+                        } catch (Exception e) {
+                            System.err.println(e);
+                        }
+                    }
+                    System.out.println();
                     break;
                 case 4:
                     scan = new Scanner(System.in);
@@ -139,6 +149,7 @@ public class Shop {
                     break;
                 case 5:
                     getAllData();
+                    System.out.println();
                     break;
                 case 6:
                     System.exit(0);
@@ -180,53 +191,20 @@ public class Shop {
         return true;
     }
 
-    private void getTShirtByGender(int gender) {
-        while (true) {
-            scan = new Scanner(System.in);
-            switch (gender) {
-                case 1:
-                    getTShirtByMale();
-                    break;
-                case 2:
-                    getTShirtByFemale();
-                    break;
-                case 3:
-                    getTShirtByUnisex();
-                    break;
-                default:
-                    System.out.println("You have entered an invalid input, Please try again");
-            }
-        }
-    }
-
-    private void getTShirtByMale() {
-        for (Map<Object, Object> map: wareHouse) {
-            for (Map.Entry<Object, Object> pair: map.entrySet()) {
+    private boolean getTShirtByGender(char gender) throws GenderNotFoundException {
+        boolean flag = false;
+        for (Map<Object, Object> map : wareHouse) {
+            for (Map.Entry<Object, Object> pair : map.entrySet()) {
                 TShirt tShirt = (TShirt) pair.getKey();
                 Info info = (Info) pair.getValue();
-                if (info.getGender() == 'M') System.out.println(printData(tShirt, info));
+                if (info.getGender() == gender) {
+                    System.out.println(printData(tShirt, info));
+                    flag = true;
+                }
             }
         }
-    }
-
-    private void getTShirtByFemale() {
-        for (Map<Object, Object> map: wareHouse) {
-            for (Map.Entry<Object, Object> pair: map.entrySet()) {
-                TShirt tShirt = (TShirt) pair.getKey();
-                Info info = (Info) pair.getValue();
-                if (info.getGender() == 'F') System.out.println(printData(tShirt, info));
-            }
-        }
-    }
-
-    private void getTShirtByUnisex() {
-        for (Map<Object, Object> map: wareHouse) {
-            for (Map.Entry<Object, Object> pair: map.entrySet()) {
-                TShirt tShirt = (TShirt) pair.getKey();
-                Info info = (Info) pair.getValue();
-                if (info.getGender() == 'U') System.out.println(printData(tShirt, info));
-            }
-        }
+        if (!flag) throw new GenderNotFoundException("Invalid Gender, Please select either 'M' for male or 'F' for female or 'U' for unisex.");
+        return true;
     }
 
     private void getTShirtByOutputPreferences(int preference) {
