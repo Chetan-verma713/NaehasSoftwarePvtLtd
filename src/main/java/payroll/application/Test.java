@@ -15,7 +15,7 @@ public class Test {
     static int countTemporary = 0;
     static int countContract = 0;
     static int countFullTime = 0;
-    Payroll payroll = new Payroll();
+    Pay payroll = new Payroll();
     Employee employee;
     Verification verifier = new Verification();
 

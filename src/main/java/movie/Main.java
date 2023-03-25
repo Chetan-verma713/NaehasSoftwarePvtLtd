@@ -164,6 +164,7 @@ class Stats {
         } catch (InputMismatchException e) {
             System.err.println("You entered an invalid input.");
         }
+        scan.close();
     }
 
     static void operateFile(int input) {
